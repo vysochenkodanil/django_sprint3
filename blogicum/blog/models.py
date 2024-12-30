@@ -1,13 +1,28 @@
-from django.db import models
+from django.conf import settings
 from django.contrib.auth import get_user_model
-
+from django.db import models
 
 User = get_user_model()
 
 
-class Post(models.Model):
+class AbstractModel(models.Model):
+    is_published = models.BooleanField(
+        default=True,
+        verbose_name='Опубликовано',
+        help_text='Снимите галочку, чтобы скрыть публикацию.'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Добавлено'
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Post(AbstractModel):
     title = models.CharField(
-        max_length=256,
+        max_length=settings.TITLE_MAX_LENGTH,
         verbose_name='Заголовок'
     )
     text = models.TextField(
@@ -15,8 +30,10 @@ class Post(models.Model):
     )
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
-        help_text='Если установить дату и время в будущем'
-        ' — можно делать отложенные публикации.'
+        help_text=(
+            'Если установить дату и время в будущем'
+            ' — можно делать отложенные публикации.'
+        )
     )
     author = models.ForeignKey(
         User,
@@ -38,27 +55,18 @@ class Post(models.Model):
         related_name='posts',
         verbose_name='Категория'
     )
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name='Опубликовано',
-        help_text='Снимите галочку, чтобы скрыть публикацию.'
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено'
-    )
 
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
 
     def __str__(self):
-        return self.title
+        return self.title[:15]
 
 
-class Category(models.Model):
+class Category(AbstractModel):
     title = models.CharField(
-        max_length=256,
+        max_length=settings.TITLE_MAX_LENGTH,
         verbose_name='Заголовок'
     )
     description = models.TextField(
@@ -89,10 +97,10 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title
+        return self.title[:15]
 
 
-class Location(models.Model):
+class Location(AbstractModel):
     name = models.CharField(
         max_length=256,
         verbose_name='Название места'
@@ -112,4 +120,4 @@ class Location(models.Model):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name
+        return self.name[:15]

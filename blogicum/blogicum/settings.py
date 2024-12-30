@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Максимальная длина для заголовка
+TITLE_MAX_LENGTH = 256
+
+# Количество постов на главной странице
+POSTS_PER_PAGE = 5
 
 # Application definition
 
