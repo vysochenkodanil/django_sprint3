@@ -17,7 +17,11 @@ def index(request):
 
 def category_posts(request, category_slug):
     current_time = timezone.now()
-    category = get_object_or_404(Category, slug=category_slug)
+    category = get_object_or_404(
+        Category,
+        slug=category_slug,
+        is_published=True
+    )
     posts = Post.objects.filter(
         category=category,
         pub_date__lte=current_time,
