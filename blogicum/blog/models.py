@@ -92,7 +92,7 @@ class Category(CreatedPubModel):
 
 class Location(CreatedPubModel):
     name = models.CharField(
-        max_length=256,
+        max_length=settings.TITLE_MAX_LENGTH,
         verbose_name='Название места'
     )
 
