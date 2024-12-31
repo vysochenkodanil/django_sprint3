@@ -33,6 +33,9 @@ TITLE_MAX_LENGTH = 256
 # Количество постов на главной странице
 POSTS_PER_PAGE = 5
 
+# Максимальное колличество выводимых символов в модели
+MAX_LEM_WORDS = 15
+
 # Application definition
 
 # blogicum/settings.py

@@ -5,7 +5,7 @@ from django.db import models
 User = get_user_model()
 
 
-class AbstractModel(models.Model):
+class CreatedPubModel(models.Model):
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовано',
@@ -16,11 +16,12 @@ class AbstractModel(models.Model):
         verbose_name='Добавлено'
     )
 
+
     class Meta:
         abstract = True
 
 
-class Post(AbstractModel):
+class Post(CreatedPubModel):
     title = models.CharField(
         max_length=settings.TITLE_MAX_LENGTH,
         verbose_name='Заголовок'
@@ -56,15 +57,16 @@ class Post(AbstractModel):
         verbose_name='Категория'
     )
 
+
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
 
     def __str__(self):
-        return self.title[:15]
+        return self.title[:settings.MAX_LEM_WORDS]
 
 
-class Category(AbstractModel):
+class Category(CreatedPubModel):
     title = models.CharField(
         max_length=settings.TITLE_MAX_LENGTH,
         verbose_name='Заголовок'
@@ -82,42 +84,25 @@ class Category(AbstractModel):
         )
     )
 
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name='Опубликовано',
-        help_text='Снимите галочку, чтобы скрыть публикацию.'
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено'
-    )
-
+    
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:15]
+        return self.title[:settings.MAX_LEM_WORDS]
 
 
-class Location(AbstractModel):
+class Location(CreatedPubModel):
     name = models.CharField(
         max_length=256,
         verbose_name='Название места'
     )
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name='Опубликовано',
-        help_text='Снимите галочку, чтобы скрыть публикацию.'
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено'
-    )
+    
 
     class Meta:
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[:15]
+        return self.name[:settings.MAX_LEM_WORDS]
