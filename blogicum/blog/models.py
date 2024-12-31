@@ -16,7 +16,6 @@ class CreatedPubModel(models.Model):
         verbose_name='Добавлено'
     )
 
-
     class Meta:
         abstract = True
 
@@ -57,7 +56,6 @@ class Post(CreatedPubModel):
         verbose_name='Категория'
     )
 
-
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
@@ -84,7 +82,6 @@ class Category(CreatedPubModel):
         )
     )
 
-    
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'Категории'
@@ -98,7 +95,6 @@ class Location(CreatedPubModel):
         max_length=256,
         verbose_name='Название места'
     )
-    
 
     class Meta:
         verbose_name = 'местоположение'
